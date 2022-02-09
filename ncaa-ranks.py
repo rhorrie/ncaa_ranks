@@ -1,3 +1,6 @@
+#Main function that also displays the homepage of ncaa-ranks. Plan to expand on this in future with ability to click on indiviudal teams (hopefully)
+
+
 from flask import Flask, request, render_template, session, redirect
 import requests
 import pandas as pd
@@ -7,14 +10,19 @@ from net_scrape import *
 from combined_ranking import *
 from ap_and_coaches_scrape import *
 
+#Creating ncaa dataframe
 ncaa = pd.DataFrame()
 
+#Calling each scraping function to find different rankings
 ncaa = kenpom_scrape(ncaa)
 ncaa = torvik_scrape(ncaa)
 ncaa = net_scrape(ncaa)
 ncaa = ap_and_coaches_scrape(ncaa)
+
+#Calling combine function to find the overall ranking of each team
 ncaa = find_combined_rankings(ncaa)
 
+#Creating webpage
 app = Flask(__name__)
 
 @app.route('/', methods=["GET", "POST"])
@@ -26,6 +34,3 @@ if __name__ == '__main__':
 	app.run(debug=True)
 
 
-
-
-#NET ranks dont use same team names, so unable to merge dataframes. Need to find a way around this

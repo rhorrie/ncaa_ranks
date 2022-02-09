@@ -6,30 +6,37 @@ import requests
 
 def net_scrape(ncaa):
 	
+	#Creating net dataframe
 	net = pd.DataFrame()
 
+	#Scrapes to find all D1 teams NET rankings
 	url = 'https://www.ncaa.com/rankings/basketball-men/d1/ncaa-mens-basketball-net-rankings'
 	page = requests.get(url)
 	soup = BeautifulSoup(page.content, 'html.parser')
 	teams = soup.find_all('td')
 	
+	#Create arrays needed 
 	ranks_array = []
 	teams_array = []
 	teams_total_text = []
 	
+	#Iterate through scraped teams to get the text for each team
 	for team in teams:
 		teams_text = team.get_text()
 		teams_total_text.append(teams_text)
 
+	#Iterates through all text per team (12 for each) to extract only the team name and assign them with their rank
 	y = 1
 	for x in range(2, len(teams_total_text), 12):
 		teams_array.append(teams_total_text[x])
 		ranks_array.append(int(y))
 		y = y + 1
 
+	#Assigning values to net dataframe
 	net['Teams'] = teams_array
 	net['NET Ranks'] = ranks_array
 
+	#Creating dict to ensure all team names are the same before merging
 	mapping_dict = {
 	'UConn': 'Connecticut',
 	'Saint Mary\'s (CA)': 'Saint Mary\'s',
@@ -49,7 +56,6 @@ def net_scrape(ncaa):
 	'SFA': 'Stephen F. Austin',
 	'Fla. Atlantic': 'Florida Atlantic',
 	'Col. of Charleston': 'Charleston',
-	#'Louisiana': 'Louisiana Lafayette',
 	'ETSU': 'East Tennessee St.',
 	'LMU (CA)': 'Loyola Marymount',
 	'Nicholls': 'Nicholls St.',
@@ -61,13 +67,10 @@ def net_scrape(ncaa):
 	'Boston U.': 'Boston University',
 	'FGCU': 'Florida Gulf Coast',
 	'UNCW': 'UNC Wilmington',
-	#'Purdue Fort Wayne': 'Fort Wayne',
 	'Eastern Wash.': 'Eastern Washington',
 	'Ga. Southern': 'Georgia Southern',
-	#'Detroit Mercy': 'Detroit',
 	'Miami (OH)': 'Miami OH',
 	'St. Thomas (MN)': 'St. Thomas',
-	#'LIU': 'LIU Brooklyn',
 	'Kansas City': 'UMKC',
 	'Eastern Ky.': 'Eastern Kentucky',
 	'Alcorn': 'Alcorn St.',
@@ -113,8 +116,10 @@ def net_scrape(ncaa):
 	'Eastern Ill.': 'Eastern Illinois'
 	}
 
+	#Integrating dict
 	net = net.replace({'Teams': mapping_dict})
 
+	#Merging net dataframe into ncaa dataframe
 	ncaa = pd.merge(left = ncaa, right = net, how = 'left', on = 'Teams')
 
 	return ncaa
