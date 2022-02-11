@@ -1,1 +1,1 @@
-web: gunicorn team_ranks/ncaa-ranks:app
+web: gunicorn ncaa_ranks:app
