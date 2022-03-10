@@ -47,7 +47,8 @@ def ap_and_coaches_scrape(ncaa):
 	'UConn': 'Connecticut',
 	'Ohio State': 'Ohio St.',
 	'Iowa State': 'Iowa St.',
-	'Murray State': 'Murray St.'
+	'Murray State': 'Murray St.',
+	'Colorado State': 'Colorado St.'
 	}
 
 	#Using dicts

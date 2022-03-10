@@ -25,12 +25,14 @@ ncaa = ap_and_coaches_scrape(ncaa)
 #Calling combine function to find the overall ranking of each team
 ncaa = find_combined_rankings(ncaa)
 
+#ncaa.to_csv('NcaaData.csv')
+
+
 
 #Calling bigten rankings
 big10 = get_big10_stats()
-#print(big10)
 
-#print(ncaa)
+#print(ncaa.to_string())
 
 #Creating webpage
 app = Flask(__name__)

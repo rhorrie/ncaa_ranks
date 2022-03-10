@@ -24,13 +24,17 @@ def torvik_scrape(ncaa):
 	x = 1
 	for team in teams:
 		teams_text = team.get_text().split('(')[0].strip()
+		teams_text = teams_text.split('vs.')[0].strip()
 		teams_array.append(teams_text)
 		ranks_array.append(x)
 		x = x + 1
 
+	#print(teams_array)
+
 	#Assigning values to torvik dataframe
 	torvik['Teams'] = teams_array
 	torvik['TORVIK Ranks'] = ranks_array
+
 
 	#Creating dict to ensure all team names are the same before merging
 	mapping_dict = {
@@ -45,8 +49,9 @@ def torvik_scrape(ncaa):
 	#Using team dict
 	torvik = torvik.replace({'Teams': mapping_dict})
 
+	#print(torvik.to_string())
+
 	#Merging torvik dataframe into the ncaa dataframe
 	ncaa = pd.merge(left = ncaa, right = torvik, how = 'left', on = 'Teams')
 	
 	return ncaa
-

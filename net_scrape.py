@@ -113,7 +113,8 @@ def net_scrape(ncaa):
 	'Ark.-Pine Bluff': 'Arkansas Pine Bluff',
 	'UIW': 'Incarnate Word',
 	'Mississippi Val.': 'Mississippi Valley St.',
-	'Eastern Ill.': 'Eastern Illinois'
+	'Eastern Ill.': 'Eastern Illinois',
+	'UAlbany': 'Albany'
 	}
 
 	#Integrating dict
